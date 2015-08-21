@@ -22,9 +22,14 @@ from cloudify.decorators import operation
 
 
 @operation
-def start_server(port, **kwargs):
-    command = 'cd {0}; nohup python -m SimpleHTTPServer {1}> /dev/null 2>&1' \
-              ' & echo $! > /tmp/python-webserver.pid'.format('/tmp', port)
+def start_server(**kwargs):
+    path = ctx.instance.runtime_properties['path']
+    port = ctx.instance.runtime_properties['port']
+
+    command = (
+        'cd {}; nohup python -m SimpleHTTPServer {}> /dev/null 2>&1'
+        ' & echo $! > /tmp/python-webserver.pid'
+    ).format(path, port)
 
     ctx.logger.info('Starting HTTP server using: {0}'.format(command))
     os.system(command)
