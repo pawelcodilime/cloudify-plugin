@@ -23,8 +23,8 @@ from cloudify.decorators import operation
 
 @operation
 def start_server(**kwargs):
-    path = ctx.instance.runtime_properties['path']
-    port = ctx.instance.runtime_properties['port']
+    path = ctx.node.properties['path']
+    port = ctx.node.properties['port']
 
     command = (
         'cd {}; nohup python -m SimpleHTTPServer {}> /dev/null 2>&1'
