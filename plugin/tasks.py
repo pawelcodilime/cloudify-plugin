@@ -33,3 +33,15 @@ def start_server(**kwargs):
 
     ctx.logger.info('Starting HTTP server using: {0}'.format(command))
     os.system(command)
+
+
+@operation
+def stop_server(**kwargs):
+    with open('/tmp/python-webserver.pid') as f:
+        pid = f.read()
+
+    try:
+        ctx.logger.info('Server stopped.')
+        os.kill(int(pid), 9)
+    except OSError:
+        ctx.logger.info('Server is already not running.')
